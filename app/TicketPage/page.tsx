@@ -1,9 +1,15 @@
 import React from 'react'
+import TicketCard from '../(components)/TicketCard'
 
 const TicketPage = () => {
   return (
     <div>
-        <p className="text-5xl font-bold">Ticket Page</p>
+      <div className='lg:grid grid-cols-2 xl:grid-cols-4'>
+        <TicketCard/>
+        <TicketCard/>
+        <TicketCard/>
+        <TicketCard/>
+      </div>
     </div>
   )
 }
