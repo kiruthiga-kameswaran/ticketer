@@ -26,21 +26,30 @@ const TicketForm = () => {
         fetchAssignees();
     }, []);
 
-    const handleSubmit = (e:React.FormEvent<HTMLFormElement>) =>{
-        const target = e.target as HTMLInputElement;
-        const value = target.value;
-        const name = target.name;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
         setformdata({
             ...formdata,
             [name]: value
         });
     }
-  return ( 
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('/api/ticket', formdata);
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+  return (
     <div>
-        <form className='bg-white p-6 rounded shadow-md flex flex-col w-96' onSubmit={handleSubmit}>
-            <input className='border border-gray-300 p-2 rounded mb-4' type="text" name="title" placeholder="Title" value={formdata.title} onChange={(e) => setformdata({...formdata, title: e.target.value})} required />
-            <textarea className='border border-gray-300 p-2 rounded mb-4' name="description" placeholder="Description" value={formdata.description} onChange={(e) => setformdata({...formdata, description: e.target.value})} required></textarea>
-            <select className='border border-gray-300 p-2 rounded mb-4' name="priority" value={formdata.priority} onChange={(e) => setformdata({...formdata, priority: e.target.value})} required>
+        <form className='bg-white p-6 rounded shadow-md flex flex-col w-96' onSubmit={handleSubmit} method='POST'>
+            <input className='border border-gray-300 p-2 rounded mb-4' type="text" name="title" placeholder="Title" value={formdata.title} onChange={handleChange} required />
+            <textarea className='border border-gray-300 p-2 rounded mb-4' name="description" placeholder="Description" value={formdata.description} onChange={handleChange} required></textarea>
+            <select className='border border-gray-300 p-2 rounded mb-4' name="priority" value={formdata.priority} onChange={handleChange} required>
                 <option value="">Select Priority</option>
                 <option value="Low">Low</option>
                 <option value="Mid">Mid</option>
@@ -53,7 +62,6 @@ const TicketForm = () => {
                         {assignee.name}
                     </option>
                 ))}
-                <option value="11">John Doe</option>
             </select>
             <button className='bg-gray-800 text-white p-2 rounded' type="submit">Create Ticket</button>
         </form>
