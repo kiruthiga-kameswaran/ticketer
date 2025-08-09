@@ -1,9 +1,13 @@
 import React from 'react'
 
-const StatusDisplay = () => {
+type StatusDisplayProps = {
+  status:string;
+}
+
+const StatusDisplay: React.FC<StatusDisplayProps> = ({ status }) => {
   return (
     <span className='inline-block rounded-full px-2 py-1 text-xs bg-gray-200 text-gray-800'>
-      Done
+      {status}
     </span>
   )
 }

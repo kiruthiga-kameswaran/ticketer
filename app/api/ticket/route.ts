@@ -23,3 +23,14 @@ export async function POST(request: Request){
         return NextResponse.json({error: 'Failed to create ticket'}, {status: 500});
     }
 }
+
+export async function GET(){
+    try{
+        const tickets = await prisma.ticketSchema.findMany();
+        return NextResponse.json({tickets}, {status: 200});
+    }
+    catch(error)
+    {
+        return NextResponse.json({error: 'Failed to fetch tickets'}, {status: 500});
+    }
+}
