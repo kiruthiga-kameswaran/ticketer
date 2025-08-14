@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link';
 import { FaTicket } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
+import { logoutAction } from '../actions/logoutAction';
 
 const Nav = () => {
   return (
@@ -11,7 +12,7 @@ const Nav = () => {
          <Link className='flex space-x-4 p-4' href="/AddTicket"><FaTicket className='flex items-center text-white'/> <p className='text-white'>New Ticket</p></Link>
       </div>
       <div className='flex items-center space-x-4 p-4'>
-        <p className='text-white'>Hello, User</p>
+        <button className='text-white' onClick={logoutAction}>Logout</button>
       </div>
     </nav>
   )

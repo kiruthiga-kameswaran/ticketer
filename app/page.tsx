@@ -1,15 +1,12 @@
 import React from 'react'
-import TicketPage from './(components)/TicketPage'
 
-
-const DashBoard = () => {
+const page = () => {
   return (
-    <div className='p-4'>
-      <h1 className='text-2xl font-bold'>Welcome, User</h1>
-      <p className='text-gray-600'>See your assigned tasks here</p>
-      <TicketPage/>
+    <div>
+      <h1>Welcome to the Ticketing App</h1>
+      <p>Please sign in to continue</p>
     </div>
   )
 }
 
-export default DashBoard
+export default page
