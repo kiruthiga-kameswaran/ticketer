@@ -1,7 +1,9 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import TicketCard from '../(components)/TicketCard'
+import { useRecoilState } from 'recoil';
+import TicketsAtom from '@/store/TicketsAtom';
 
 const getTickets = async () => {
   const response = await fetch('/api/ticket');
@@ -24,7 +26,7 @@ type Ticket = {
 };
 
 const TicketPage = () => {
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useRecoilState<Ticket[]>(TicketsAtom);
 
   useEffect(() => {
     try{

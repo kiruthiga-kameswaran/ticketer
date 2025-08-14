@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "./(components)/Nav";
 import { SessionProvider } from "next-auth/react";
+import { RecoilRoot } from "recoil";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,11 @@ export default function RootLayout({
         <div className="flex flex-col h-screen max-h-screen">
            <Nav/>
            <div className="flex-grow overflow-auto">
-            <SessionProvider>{children}</SessionProvider>
+            <SessionProvider>
+              <RecoilRoot>
+                {children}
+              </RecoilRoot>
+            </SessionProvider>
            </div>
         </div>
       </body>
