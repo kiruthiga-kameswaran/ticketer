@@ -3,17 +3,7 @@ import DeleteBlock from './DeleteBlock'
 import PriorityDisplay from './PriorityDisplay'
 import ProgressDisplay from './ProgressDisplay'
 import StatusDisplay from './StatusDisplay'
-
-type Ticket = {
-  id: string;
-  title: string;
-  description: string;
-  createdBy: string;
-  dueDate: string;
-  priority: string;
-  progress: number;
-  status: string;
-};
+import { Ticket } from '../../types/Ticket'
 
 type TicketCardProps = {
   ticket: Ticket;

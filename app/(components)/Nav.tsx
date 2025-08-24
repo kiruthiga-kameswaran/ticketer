@@ -10,6 +10,7 @@ const Nav = () => {
       <div className='flex items-center'>
          <Link className='flex space-x-4 p-4' href="/"><FaHome className='flex items-center text-white'/> <p className='text-white'>Home</p></Link>
          <Link className='flex space-x-4 p-4' href="/AddTicket"><FaTicket className='flex items-center text-white'/> <p className='text-white'>New Ticket</p></Link>
+          <Link className='flex space-x-4 p-4' href="/dashboard"><FaTicket className='flex items-center text-white'/> <p className='text-white'>DashBoard</p></Link>
       </div>
       <div className='flex items-center space-x-4 p-4'>
         <button className='text-white' onClick={logoutAction}>Logout</button>

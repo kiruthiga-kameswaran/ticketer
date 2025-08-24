@@ -1,20 +1,8 @@
 import { atom } from "recoil";
+import type { Ticket } from "../types/Ticket";
 
-type Ticket = {
-  id: string;
-  title: string;
-  description: string;
-  priority: number;
-  progress: number;
-  status: string;
-  createdBy: string; 
-  dueDate?: string; // optional, as it may not be returned by the API
-  // add other properties as needed, e.g. title: string;
-};
-
-const TicketsAtom = atom<Ticket[]>({
-  key: "ticketsAtom",
+export const TicketsAtom = atom<Ticket[]>({
+  key: "TicketsAtom",
   default: [],
 });
 
-export default TicketsAtom;

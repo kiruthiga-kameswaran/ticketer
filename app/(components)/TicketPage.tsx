@@ -1,9 +1,11 @@
 "use client"
 
-import React, { useEffect} from 'react'
-import TicketCard from '../(components)/TicketCard'
+import React, { use, useEffect} from 'react'
+import TicketCard from './TicketCard'
 import { useRecoilState } from 'recoil';
-import TicketsAtom from '@/store/TicketsAtom';
+import { TicketsAtom } from '../../store/TicketsAtom';
+import type {Ticket} from '../../types/Ticket';
+import { useTickets } from '../../store/TicketsContext';
 
 const getTickets = async () => {
   const response = await fetch('/api/ticket');
@@ -13,20 +15,8 @@ const getTickets = async () => {
   return response.json();
 }
 
-type Ticket = {
-  id: string;
-  title: string;
-  description: string;
-  priority: number;
-  progress: number;
-  status: string;
-  createdBy: string; 
-  dueDate?: string; // optional, as it may not be returned by the API
-  // add other properties as needed, e.g. title: string;
-};
-
 const TicketPage = () => {
-  const [tickets, setTickets] = useRecoilState<Ticket[]>(TicketsAtom);
+  const { tickets, setTickets } = useTickets();
 
   useEffect(() => {
     try{
@@ -38,7 +28,7 @@ const TicketPage = () => {
     }catch(error){
       console.error(error);
     }
-  }, [])
+  }, [setTickets])
 
   return (
     <div>

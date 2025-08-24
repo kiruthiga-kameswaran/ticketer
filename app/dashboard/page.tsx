@@ -1,10 +1,12 @@
+"use client"
+
 import React from 'react'
 import TicketPage from '../(components)/TicketPage'
-import { auth } from "@/auth";
+import { useSession } from 'next-auth/react';
 
 
-const DashBoard = async () => {
-  const session = await auth();
+const DashBoard = () => {
+  const { data: session } = useSession();
   return (
     <div className='p-4'>
       <h1 className='text-2xl font-bold'>Welcome, {session?.user?.email}</h1>

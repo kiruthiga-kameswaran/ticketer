@@ -1,9 +1,7 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "./(components)/Nav";
-import { SessionProvider } from "next-auth/react";
-import { RecoilRoot } from "recoil";
+import Providers from "./(components)/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,11 +12,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Ticket App",
-  description: "Create and manage your tickets easily",
-};
 
 export default function RootLayout({
   children,
@@ -33,11 +26,9 @@ export default function RootLayout({
         <div className="flex flex-col h-screen max-h-screen">
            <Nav/>
            <div className="flex-grow overflow-auto">
-            <SessionProvider>
-              <RecoilRoot>
+              <Providers>
                 {children}
-              </RecoilRoot>
-            </SessionProvider>
+              </Providers>
            </div>
         </div>
       </body>
