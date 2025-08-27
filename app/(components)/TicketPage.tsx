@@ -2,10 +2,8 @@
 
 import React, { use, useEffect} from 'react'
 import TicketCard from './TicketCard'
-import { useRecoilState } from 'recoil';
-import { TicketsAtom } from '../../store/TicketsAtom';
-import type {Ticket} from '../../types/Ticket';
 import { useTickets } from '../../store/TicketsContext';
+import Link from 'next/link';
 
 const getTickets = async () => {
   const response = await fetch('/api/ticket');
@@ -33,7 +31,13 @@ const TicketPage = () => {
   return (
     <div>
       <div className='lg:grid grid-cols-2 xl:grid-cols-4'>
-        {tickets.map((ticket)=><TicketCard key={ticket.id} ticket={ticket}/> )}
+        {tickets.map((ticket)=>
+        <>
+        <Link href={`/TicketDescription/${ticket.id}`}>
+          <TicketCard key={ticket.id} ticket={ticket}/> 
+        </Link>
+        </>
+        )}
       </div>
     </div>
   )

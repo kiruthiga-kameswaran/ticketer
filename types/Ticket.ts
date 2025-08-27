@@ -6,6 +6,7 @@ export type Ticket = {
   progress: number;
   status: string;
   createdBy: string;
-  dueDate?: string; // optional, as it may not be returned by the API
+  dueDate?: string; 
+  assignee: string;// optional, as it may not be returned by the API
   // add other properties as needed, e.g. title: string;
 };

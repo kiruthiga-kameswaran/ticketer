@@ -23,14 +23,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex flex-col h-screen max-h-screen">
-           <Nav/>
-           <div className="flex-grow overflow-auto">
-              <Providers>
-                {children}
-              </Providers>
-           </div>
-        </div>
+        <Providers>
+          <div className="flex flex-col h-screen max-h-screen">
+            <Nav />
+            <div className="flex-grow overflow-auto">
+              {children}
+            </div>
+          </div>
+        </Providers>
       </body>
     </html>
   );

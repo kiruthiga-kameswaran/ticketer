@@ -15,10 +15,11 @@ model TicketSchema {
   progress    Int?
   status      StatusType?
   active      ActiveType?
-  assignee    Assignee      @relation(fields: [assigneeId], references: [id])
+  assignee    Assignee      @relation("AssignedTo",fields: [assigneeId], references: [id])
   assigneeId  Int
+  createdBy   Assignee?      @relation("CreatedBy",fields: [createdById], references: [id])
+  createdById Int?
   createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
 }
 
 model Assignee {
@@ -26,7 +27,8 @@ model Assignee {
   name         String?
   email        String?        @unique
   password     String?
-  TicketSchema TicketSchema[]
+  assignedTickets TicketSchema[] @relation("AssignedTo")
+  createdTickets  TicketSchema[] @relation("CreatedBy")
 }
 
 enum PriorityType {
