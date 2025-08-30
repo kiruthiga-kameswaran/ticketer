@@ -4,10 +4,32 @@ import { prisma } from "./prisma";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
+async function authenticateUser(email: string, password: string) {
+  const user = await prisma.assignee.findUnique({ where: { email } });
+  if (!user) return null;
+
+  const isValid = await bcrypt.compare(password, user.password);
+  return isValid ? user : null;
+
+}
+
+async function registerUser(name:string, email:string, password:string){
+  const hashedPassword = await bcrypt.hash(password,10);
+  const user = await prisma.assignee.create({
+    data:{
+      name,
+      email,
+      password:hashedPassword
+    }
+  })
+  return user;
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       credentials: {
+        action: {type: "text"},
         name: { label: "Name", type: "text", placeholder: "John Doe" },
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
@@ -20,30 +42,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: { email: credentials.email },
         });
 
-        if (user) {
-          // Compare entered password with stored hash
-          const isValid = await bcrypt.compare(credentials.password, user.password);
-          if (isValid) {
-            return { id: user.id, email: user.email, name: user.name };
-          }
-          return null;
+        if (credentials.action === "login") {
+          return await authenticateUser(credentials.email, credentials.password);
         }
-
         // Register new user (signup)
-        try {
-          const hashedPassword = await bcrypt.hash(credentials.password, 10);
-          const newUser = await prisma.assignee.create({
-            data: {
-              name: credentials.name,
-              email: credentials.email,
-              password: hashedPassword,
-            },
-          });
-          return { id: newUser.id, name: newUser.name, email: newUser.email };
-        } catch (error) {
-          console.error("Error creating user:", error);
-          return null;
+        else if (credentials.action === "signup") {
+          if (user) {
+            // User already exists
+            return null;
+          }
+          return await registerUser(credentials.name, credentials.email, credentials.password);
         }
+        return null;
       },
     }),
   ],

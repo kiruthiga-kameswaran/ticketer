@@ -11,7 +11,8 @@ export async function POST(request: Request){
                 priority:data.priority,
                 status:data.status,
                 active:data.active,
-                assigneeId:data.assigneeId
+                assigneeId:data.assigneeId,
+                createdById:data.createdById
             }
         })
         if(ticket){

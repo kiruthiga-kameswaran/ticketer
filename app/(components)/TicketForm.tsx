@@ -2,6 +2,7 @@
 import axios from 'axios'
 //import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react';
 
 const TicketForm = () => {
     const ticketData={
@@ -11,11 +12,13 @@ const TicketForm = () => {
         progress:0,
         status:"Assigned",
         active:"Yes",
-        assigneeId:0
+        assigneeId:0,
+        createdById:0
     }
     const [formdata,setformdata]=useState(ticketData);
     type Assignee = { id: number; name: string };
     const [assignees, setassignees] = useState<Assignee[]>([]);
+    const { data: session } = useSession();
 
     useEffect(() => {
         const fetchAssignees = async () => {
@@ -36,6 +39,9 @@ const TicketForm = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if(session?.user?.id){
+            formdata.createdById = parseInt(session.user.id as string);
+        }
         try {
             const response = await axios.post('/api/ticket', formdata);
             console.log(response.data);
