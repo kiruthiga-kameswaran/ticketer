@@ -5,7 +5,7 @@ async function fetchAidDescription(title: string) {
     const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
     const response = await ai.models.generateContent({
         model:"gemini-2.5-flash",
-        contents:`Generate a detailed description with bullet points for the following title: ${title}`,
+        contents:`Generate a description for the following title: ${title}`,
         config: {
         thinkingConfig: {
         thinkingBudget: 0, // Disables thinking
