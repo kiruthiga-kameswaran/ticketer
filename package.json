@@ -12,6 +12,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@google/genai": "^1.16.0",
     "@prisma/client": "^6.13.0",
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",

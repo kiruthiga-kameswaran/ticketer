@@ -3,6 +3,7 @@ import axios from 'axios'
 //import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react';
+import { VscLightbulbSparkle } from 'react-icons/vsc';
 
 const TicketForm = () => {
     const ticketData={
@@ -50,11 +51,37 @@ const TicketForm = () => {
         }
     }
 
+    const generateDescription = async () => {
+        try {
+            const response = await axios.get(`/api/aidescription/${formdata.title}`);
+            setformdata({ ...formdata, description: response.data });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
   return (
     <div>
         <form className='bg-white p-6 rounded shadow-md flex flex-col w-96' onSubmit={handleSubmit} method='POST'>
             <input className='border border-gray-300 p-2 rounded mb-4' type="text" name="title" placeholder="Title" value={formdata.title} onChange={handleChange} required />
-            <textarea className='border border-gray-300 p-2 rounded mb-4' name="description" placeholder="Description" value={formdata.description} onChange={handleChange} required></textarea>
+            <div className="relative mb-4">
+                    <textarea 
+                        className='border border-gray-300 p-2 rounded w-full min-h-[100px]' 
+                        name="description" 
+                        placeholder="Description" 
+                        value={formdata.description} 
+                        onChange={handleChange} 
+                        required
+                    ></textarea>
+                    <button 
+                        type="button"
+                        onClick={generateDescription}
+                        className="absolute bottom-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded hover:bg-blue-600 transition-colors"
+                    >
+                        <VscLightbulbSparkle className="inline-block mr-1" />
+                        Generate
+                    </button>
+                </div>
             <select className='border border-gray-300 p-2 rounded mb-4' name="priority" value={formdata.priority} onChange={handleChange} required>
                 <option value="">Select Priority</option>
                 <option value="Low">Low</option>
