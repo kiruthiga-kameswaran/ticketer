@@ -1,0 +1,22 @@
+name: Build succeeds on push
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build and push 
+    runs on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: install dependencies
+        run: npm install
+      - name: prisma client generation
+        run: npx prisma generate
+      - name: run build
+        run: npm run build
