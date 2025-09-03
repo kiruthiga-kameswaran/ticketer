@@ -4,6 +4,7 @@ import type { Ticket } from '../../../types/Ticket';
 import {useParams} from 'next/navigation';
 import { VscLightbulbSparkle } from 'react-icons/vsc';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 
 const TicketDescription = () => {
   const [description, setDescription] = useState<Ticket>({} as Ticket);
@@ -26,8 +27,8 @@ const TicketDescription = () => {
   return (
      <div className='p-4 mt-3'>
         <h2 className='text-3xl font-bold'>{description.title}</h2>
-        <div className='mt-4'>
-          <p className='text-gray-800'>{description.description}</p>
+        <div className='mt-4 text-gray-800'>
+          <ReactMarkdown>{description.description}</ReactMarkdown>
           <p className='text-gray-600 mt-2'>Priority: {description.priority}</p>
           <div className='mt-4 bg-gray-300 p-4'>
             <textarea className='border border-gray-300 p-2 w-full resize-none' name="comment" id="" placeholder='Add a comment...'></textarea>
