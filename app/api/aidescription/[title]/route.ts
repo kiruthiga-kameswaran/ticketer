@@ -1,4 +1,4 @@
-import {NextResponse} from 'next/server';
+import {NextResponse, NextRequest} from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 
 async function fetchAidDescription(title: string) {
@@ -15,7 +15,7 @@ async function fetchAidDescription(title: string) {
     return response;
 }
 
-export async function GET(request: Request, { params }: { params: { title: string } }) {
+export async function GET(request: NextRequest, { params }: { params: { title: string } }) {
     const { title } = params;
     // Fetch the aid description based on the title
     const {text} = await fetchAidDescription(title);
