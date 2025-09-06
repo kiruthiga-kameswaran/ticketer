@@ -15,9 +15,7 @@ export async function POST(request: Request){
                 createdById:data.createdById
             }
         })
-        if(ticket){
-            return NextResponse.json({message: 'Ticket created successfully', ticket}, {status: 201});
-        }
+        return NextResponse.json({message: 'Ticket created successfully', ticket}, {status: 201});
     }
     catch(error)
     {

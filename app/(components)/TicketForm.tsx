@@ -53,7 +53,7 @@ const TicketForm = () => {
 
     const generateDescription = async () => {
         try {
-            const response = await axios.get(`/api/aidescription/${formdata.title}`);
+            const response = await axios.post("/api/aidescription", { title: formdata.title });
             setformdata({ ...formdata, description: response.data });
         } catch (error) {
             console.error(error);

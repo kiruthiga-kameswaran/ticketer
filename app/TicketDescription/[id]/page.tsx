@@ -13,7 +13,7 @@ const TicketDescription = () => {
 
   useEffect(() => {
           const fetchDescription = async () => {
-              const response = await axios.get(`/api/description/${id}`);
+              const response = await axios.post("/api/description", { id });
               setDescription(response.data);
           };
           fetchDescription();

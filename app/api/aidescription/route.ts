@@ -15,8 +15,8 @@ async function fetchAidDescription(title: string) {
     return response;
 }
 
-export async function GET(request: Request, { params }: { params: { title: string } }) {
-    const { title } = params;
+export async function POST(request: Request) {
+    const { title } = await request.json();
     // Fetch the aid description based on the title
     const {text} = await fetchAidDescription(title);
     if (!text) {

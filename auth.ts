@@ -8,6 +8,7 @@ async function authenticateUser(email: string, password: string) {
   const user = await prisma.assignee.findUnique({ where: { email } });
   if (!user) return null;
 
+  if (!user.password) return null;
   const isValid = await bcrypt.compare(password, user.password);
   return isValid ? user : null;
 
@@ -39,11 +40,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // Find user by email
         const user = await prisma.assignee.findUnique({
-          where: { email: credentials.email },
+          where: { email: typeof credentials.email === "string" ? credentials.email : undefined },
         });
 
         if (credentials.action === "login") {
-          return await authenticateUser(credentials.email, credentials.password);
+          const email = typeof credentials.email === "string" ? credentials.email : "";
+          const password = typeof credentials.password === "string" ? credentials.password : "";
+          const dbUser = await authenticateUser(email, password);
+          if (!dbUser) return null;
+          return {
+            id: dbUser.id.toString(),
+            name: dbUser.name,
+            email: dbUser.email,
+          };
         }
         // Register new user (signup)
         else if (credentials.action === "signup") {
@@ -51,7 +60,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             // User already exists
             return null;
           }
-          return await registerUser(credentials.name, credentials.email, credentials.password);
+          const name = typeof credentials.name === "string" ? credentials.name : "";
+          const email = typeof credentials.email === "string" ? credentials.email : "";
+          const password = typeof credentials.password === "string" ? credentials.password : "";
+          const newUser = await registerUser(name, email, password);
+          return {
+            id: newUser.id.toString(),
+            name: newUser.name,
+            email: newUser.email,
+          };
         }
         return null;
       },
@@ -71,8 +88,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return url.startsWith(baseUrl) ? url : process.env.AUTH_URL || baseUrl;
     },
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
+      if (token && typeof token.id === "string" && session.user) {
+        (session.user as { id?: string }).id = token.id;
       }
       return session;
     },
